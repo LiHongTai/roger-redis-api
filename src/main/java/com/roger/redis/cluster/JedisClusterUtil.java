@@ -11,10 +11,12 @@ public class JedisClusterUtil {
 
 
     public static JedisCluster getJedisClusterInstance(){
-        return SingletonJedisCluster.initJedisCluster();
+        return SingletonJedisCluster.INSTANCE;
     }
 
     private static class SingletonJedisCluster{
+
+        private static JedisCluster INSTANCE = initJedisCluster();
 
        public static JedisCluster initJedisCluster(){
            //redis 节点信息
