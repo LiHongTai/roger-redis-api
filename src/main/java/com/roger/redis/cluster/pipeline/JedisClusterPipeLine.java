@@ -16,7 +16,8 @@ public class JedisClusterPipeLine extends PipelineBase implements Closeable {
 
     //一次pipeline过程中使用到jedis缓存
     private final Map<JedisPool,Jedis> poolToJedisMap = new HashMap<>();
-    // 位于一个节点的所有slot共享一个jedisCluster
+    // JedisClusterInfoCache中封装了每个节点对应的Jedis操作客户端
+    // 还有槽点对应的Jedis操作客户端
     private final JedisClusterInfoCache clusterInfoCache;
     private final JedisSlotBasedConnectionHandler connectionHandler;
     // 根据顺序存储每个命令对应的Client
@@ -53,6 +54,7 @@ public class JedisClusterPipeLine extends PipelineBase implements Closeable {
 
     @Override
     protected Client getClient(byte[] bkey) {
+        //1.根据key值计算槽点
         Jedis jedis = getJedis(JedisClusterCRC16.getSlot(bkey));
 
         Client client = jedis.getClient();
@@ -62,17 +64,18 @@ public class JedisClusterPipeLine extends PipelineBase implements Closeable {
     }
 
     private Jedis getJedis(int slot) {
+        //2.同一个节点下的所有槽点获取到的JedisPool都是一样的
         JedisPool slotJedisPool = clusterInfoCache.getSlotPool(slot);
 
-        //根据pool从poolToJedisMap获取连接Jedis
+        //3.验证分配到同一个节点的所有槽点对应的JedisPool是否已经存在
         Jedis jedis = poolToJedisMap.get(slotJedisPool);
+        //4. 如果不存在
         if(jedis == null){
-            //如果没有从缓存中获取到连接jedis，则从连接池中获取一个缓存起来
-            //以便下次可以获取到
+            //4.1 则获取客户端连接，存储到容器中去
             jedis = slotJedisPool.getResource();
             poolToJedisMap.put(slotJedisPool,jedis);
         }
-        //已经有数据待保存了
+        //4.2 如果已经存储直接返回
         hasDataInBuff = true;
         return jedis;
     }
