@@ -2,7 +2,6 @@ package com.roger.redis.cluster.pipeline;
 
 import com.roger.redis.cluster.JedisClusterUtil;
 import com.roger.redis.utils.ReflectUtil;
-import org.apache.commons.collections4.CollectionUtils;
 import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisMovedDataException;
 import redis.clients.jedis.exceptions.JedisRedirectionException;
