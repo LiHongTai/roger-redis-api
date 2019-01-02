@@ -128,7 +128,7 @@ public class JedisClusterPipeLine extends PipelineBase implements Closeable {
     }
 
     private void innerSync(List<Object> responseList){
-        if(CollectionUtils.isEmpty(responseList)){
+        if(responseList == null){
             responseList = new ArrayList<>();
         }
 

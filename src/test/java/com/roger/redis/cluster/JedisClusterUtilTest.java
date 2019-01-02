@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import redis.clients.jedis.JedisCluster;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JedisClusterUtilTest {
@@ -16,10 +17,10 @@ public class JedisClusterUtilTest {
     }
 
     @Test
-    public void testJedisClusterPipeLine() {
+    public void testJedisCluster() {
         long startTime = System.currentTimeMillis();
 
-        List<Object> batchResult = null;
+        List<Object> batchResult = new ArrayList<>();
 
         // batch write
         for (int i = 0; i < 10000; i++) {

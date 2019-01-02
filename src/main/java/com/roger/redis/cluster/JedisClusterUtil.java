@@ -22,14 +22,14 @@ public class JedisClusterUtil {
            //redis 节点信息
            Set<HostAndPort> clusterNodes = new HashSet<>();
 
-           initClusterNodes(clusterNodes,"192.168.1.11:8001");
-           initClusterNodes(clusterNodes,"192.168.1.11:8004");
+           initClusterNodes(clusterNodes,"192.168.10.124:8001");
+           initClusterNodes(clusterNodes,"192.168.10.124:8004");
 
-           initClusterNodes(clusterNodes,"192.168.1.12:8002");
-           initClusterNodes(clusterNodes,"192.168.1.12:8005");
+           initClusterNodes(clusterNodes,"192.168.10.124:8002");
+           initClusterNodes(clusterNodes,"192.168.10.124:8005");
 
-           initClusterNodes(clusterNodes,"192.168.1.13:8003");
-           initClusterNodes(clusterNodes,"192.168.1.13:8006");
+           initClusterNodes(clusterNodes,"192.168.10.124:8003");
+           initClusterNodes(clusterNodes,"192.168.10.124:8006");
 
 
            JedisCluster jedisCluster = new JedisCluster(clusterNodes,3000,3000,10,"roger",initJedisPoolConfig());
